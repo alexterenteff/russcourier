@@ -1,7 +1,7 @@
 import logging
 import os
 
-from telegram import Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 # --- Настройка логирования ---
@@ -15,10 +15,19 @@ logger = logging.getLogger(__name__)
 # чтобы не хранить его в коде и в GitHub-репозитории.
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
+# Ссылка, на которую ведёт кнопка "Связаться" — открывает личный чат в Telegram.
+CONTACT_URL = "https://t.me/agterentev"
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /start."""
-    await update.message.reply_text("Привет, это проект Русский курьер")
+    keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("Связаться", url=CONTACT_URL)]]
+    )
+    await update.message.reply_text(
+        "Привет, это проект Русский курьер",
+        reply_markup=keyboard,
+    )
 
 
 def main() -> None:
